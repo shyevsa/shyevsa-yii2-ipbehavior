@@ -1,6 +1,5 @@
 {
   "name": "shyevsa/yii2-ipbehavior",
-  "version": "0.1.0",
   "description": "Yii2 Behavior for updating IP address",
   "keywords": [
     "yii2",
@@ -36,7 +35,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "shyevsa\\ipbehavior\\test\\": "tests"
+      "shyevsa\\ipbehavior\\tests\\": "tests"
     }
   },
   "repositories": [
@@ -44,5 +43,14 @@
       "type": "composer",
       "url": "https://asset-packagist.org"
     }
-  ]
+  ],
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "analyze": "vendor/bin/psalm"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
+  }
 }
