@@ -1,0 +1,48 @@
+{
+  "name": "shyevsa/yii2-ipbehavior",
+  "version": "0.1.0",
+  "description": "Yii2 Behavior for updating IP address",
+  "keywords": [
+    "yii2",
+    "yii",
+    "behavior",
+    "ip"
+  ],
+  "homepage": "https://github.com/shyevsa/yii2-ipbehavior/",
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Sakurai Evsa",
+      "email": "sakurai.evsa@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/shyevsa/yii2-ipbehavior/issues",
+    "source": "https://github.com/shyevsa/yii2-ipbehavior"
+  },
+  "require": {
+    "php": ">=7.4.0",
+    "yiisoft/yii2": "~2.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "9.6",
+    "vimeo/psalm": "^5.26"
+  },
+  "autoload": {
+    "psr-4": {
+      "shyevsa\\ipbehavior\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "shyevsa\\ipbehavior\\test\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
