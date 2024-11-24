@@ -19,6 +19,7 @@ class PostManual extends Post
         return [
             'ipBehavior' => [
                 'class' => IpBehavior::class,
+                'skipAutoFill' => true,
                 'preserveNonEmptyValues' => true,
                 'defaultValue' => '127.0.0.99',
             ],

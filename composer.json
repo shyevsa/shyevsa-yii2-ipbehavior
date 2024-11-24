@@ -45,8 +45,8 @@
     }
   ],
   "scripts": {
-    "test": "vendor/bin/phpunit",
-    "analyze": "vendor/bin/psalm"
+    "test": "vendor/bin/phpunit --config=phpunit.xml.dist",
+    "analyze": "vendor/bin/psalm --config=psalm.xml.dist"
   },
   "config": {
     "allow-plugins": {

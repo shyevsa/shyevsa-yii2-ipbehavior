@@ -67,7 +67,7 @@ use yii\db\BaseActiveRecord;
  *
  * or manual input for example from form input is needed
  * use `createdFrom` and `updatedFrom` attribute on [[\yii\base\Model::rules()|rules()]]
- * and disable the automatic fill by setting [[createdFromAttribute]], [[updatedFromAttribute]] to false
+ * and disable the automatic fill by setting [[skipAutoFill]] to `true` or callable with `true` return value.
  *
  * ```php
  * use shyevsa\ipbehavior\IpBehavior;
@@ -85,8 +85,7 @@ use yii\db\BaseActiveRecord;
  *      return [
  *         'ipBehavior' => [
  *           'class' => IpBehavior::class,
- *           'createdFromAttribute' => false,
- *           'updatedFromAttribute' => false,
+ *           'skipAutoFill' => false,
  *         ]
  *     ];
  *  }
@@ -104,16 +103,16 @@ class IpBehavior extends AttributeBehavior
     public const FORMAT_IP_BLOB = 'blob';
 
     /**
-     * @var string the attribute that will receive current IP Address
+     * @var string|false the attribute that will receive current IP Address
      * set this to false if you do not want to record the creator IP Address
      */
-    public string $createdFromAttribute = 'created_from';
+    public $createdFromAttribute = 'created_from';
 
     /**
-     * @var string the attribute that will receive current IP Address
+     * @var string|false the attribute that will receive current IP Address
      * Set this to false if you do not want to record the updater IP Address
      */
-    public string $updatedFromAttribute = 'updated_from';
+    public $updatedFromAttribute = 'updated_from';
 
     /**
      * {@inheritDoc}
@@ -131,6 +130,11 @@ class IpBehavior extends AttributeBehavior
      * @var string Format of the IP Address in `blob` or in `string`
      */
     public string $format = self::FORMAT_IP_BLOB;
+
+    /**
+     * @var array|callable|boolean Skip the automatically fill of the attributes
+     */
+    public $skipAutoFill = false;
 
     /**
      *
@@ -164,6 +168,21 @@ class IpBehavior extends AttributeBehavior
     }
 
     /**
+     *
+     * {@inheritDoc}
+     *
+     * @return void
+     */
+    public function evaluateAttributes($event)
+    {
+        if ($this->getIsSkipAutoFill()) {
+            return;
+        }
+
+        parent::evaluateAttributes($event);
+    }
+
+    /**
      * {@inheritDoc}
      *
      * In Case, when the [[value]] property is `null`, the value of [[defaultValue]] will be used as the value
@@ -183,9 +202,8 @@ class IpBehavior extends AttributeBehavior
 
     protected function getDefaultValue($event)
     {
-        if ($this->defaultValue instanceof Closure || (is_array($this->defaultValue) && is_callable(
-                    $this->defaultValue,
-                ))) {
+        if ($this->defaultValue instanceof Closure
+            || (is_array($this->defaultValue) && is_callable($this->defaultValue))) {
             return call_user_func($this->defaultValue, $event);
         }
 
@@ -212,9 +230,10 @@ class IpBehavior extends AttributeBehavior
 
     /**
      * @param string $updated_from
-     * @return \yii\base\Component
+     *
+     * @return Yii\base\Component|null
      */
-    public function setUpdatedFrom($updated_from)
+    public function setUpdatedFrom($updated_from): ?Yii\base\Component
     {
         $this->_updated_from = $updated_from;
         $this->owner->{$this->updatedFromAttribute} = ($this->format === self::FORMAT_IP_BLOB) ? self::ip2blob(
@@ -244,9 +263,10 @@ class IpBehavior extends AttributeBehavior
 
     /**
      * @param $created_from
-     * @return \yii\base\Component
+     *
+     * @return Yii\base\Component|null
      */
-    public function setCreatedFrom($created_from)
+    public function setCreatedFrom($created_from): ?Yii\base\Component
     {
         $this->_created_from = $created_from;
         $this->owner->{$this->createdFromAttribute} = ($this->format === self::FORMAT_IP_BLOB) ? self::ip2blob(
@@ -263,6 +283,16 @@ class IpBehavior extends AttributeBehavior
     {
         $this->_created_from = null;
         $this->_updated_from = null;
+    }
+
+    protected function getIsSkipAutoFill()
+    {
+        if ($this->skipAutoFill instanceof Closure
+            || (is_array($this->skipAutoFill) && is_callable($this->skipAutoFill))) {
+            return call_user_func($this->skipAutoFill);
+        }
+
+        return $this->skipAutoFill;
     }
 
     /**

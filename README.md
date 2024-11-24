@@ -149,8 +149,8 @@ public function behaviors() {
 
 If you want to manually input the IP address, from form input for example.
 you can use the [[createdFrom]] and [[updatedFrom]] attribute on [[\yii\base\Model::rules()|rules()]]
-and set the [[preserveNonEmptyValues]] to true.
-or disable automatic fill by setting the [[createdFromAttribute]], [[updatedFromAttribute]] to false for fully manual mode.
+and set the [[preserveNonEmptyValues]] to `true`.
+or disable automatic fill by setting the [[skipAutoFill]] to `true` or callable that returns `true` for fully manual mode.
 
 ```php
 use shyevsa\ipbehavior\IpBehavior;
@@ -169,10 +169,16 @@ public function behaviors()
        'class' => IpBehavior::class,
        'preserveNonEmptyValues' => true,
        // For fully manual mode
-       // 'createdFromAttribute' => false, 
-       // 'updatedFromAttribute' => false,
+       // 'skipAutoFill' => false,
      ],
   ];
 }
 
 ```
+
+**Note**: 
+
+When [[preserveNonEmptyValues]] is `true` and [[updatedFromAttribute]] is not empty, 
+[[updatedFromAttribute]] will not automatically update, 
+to make it work again set [[updatedFromAttribute]] to empty string 
+before calling [[yii\db\ActiveRecord::save()|save()]] or [[yii\db\ActiveRecord::update()|update()]].
