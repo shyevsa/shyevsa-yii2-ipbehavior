@@ -22,10 +22,10 @@
   },
   "require": {
     "php": ">=7.4.0",
-    "yiisoft/yii2": "~2.0.0"
+    "yiisoft/yii2": "2.0.55"
   },
   "require-dev": {
-    "phpunit/phpunit": "9.6",
+    "phpunit/phpunit": "9.6.38",
     "vimeo/psalm": "^5.26"
   },
   "autoload": {

@@ -11,6 +11,7 @@
     <projectFiles>
         <directory name="src" />
         <file name="vendor/yiisoft/yii2/Yii.php" />
+        <file name="vendor/yiisoft/yii2/base/Component.php" />
         <file name="vendor/yiisoft/yii2/base/Event.php" />
         <ignoreFiles>
             <directory name="vendor" />

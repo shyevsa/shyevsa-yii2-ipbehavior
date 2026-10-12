@@ -5,6 +5,7 @@ namespace shyevsa\ipbehavior;
 use Closure;
 use Throwable;
 use Yii;
+use yii\base\Component;
 use yii\behaviors\AttributeBehavior;
 use yii\db\BaseActiveRecord;
 
@@ -96,6 +97,8 @@ use yii\db\BaseActiveRecord;
  * @property null|string|false $createdFrom
  * @property null|string|false $updatedFrom
  * @psalm-api
+ * @template T of BaseActiveRecord
+ * @extends AttributeBehavior<T>
  */
 class IpBehavior extends AttributeBehavior
 {
@@ -231,9 +234,9 @@ class IpBehavior extends AttributeBehavior
     /**
      * @param string $updated_from
      *
-     * @return Yii\base\Component|null
+     * @return Component|null
      */
-    public function setUpdatedFrom($updated_from): ?Yii\base\Component
+    public function setUpdatedFrom($updated_from): ?Component
     {
         $this->_updated_from = $updated_from;
         $this->owner->{$this->updatedFromAttribute} = ($this->format === self::FORMAT_IP_BLOB) ? self::ip2blob(
@@ -264,9 +267,9 @@ class IpBehavior extends AttributeBehavior
     /**
      * @param $created_from
      *
-     * @return Yii\base\Component|null
+     * @return Component|null
      */
-    public function setCreatedFrom($created_from): ?Yii\base\Component
+    public function setCreatedFrom($created_from): ?Component
     {
         $this->_created_from = $created_from;
         $this->owner->{$this->createdFromAttribute} = ($this->format === self::FORMAT_IP_BLOB) ? self::ip2blob(
