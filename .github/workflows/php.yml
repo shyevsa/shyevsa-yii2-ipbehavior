@@ -26,10 +26,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
-    - uses: php-actions/composer@v6
-      with:
-        php_version: "7.4"
-
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
